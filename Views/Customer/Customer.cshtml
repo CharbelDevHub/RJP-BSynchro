@@ -1,0 +1,99 @@
+@model RJP.Responses.CustomerListViewModel
+
+@{
+    ViewData["Title"] = "Customer List";
+}
+
+<h1>All Customers</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model.Customers)
+        {
+            <tr>
+                <td width="35%">@customer.Name</td>
+                <td width="35%">@customer.Surname</td>
+                <td class="" width="30%">
+                    <a asp-controller="Customer"></a>
+                    <button type="button"
+                        onclick="location.href='@Url.Action("GetInfo", "Customer", new { customerId = customer.Id })'"
+                        class="btn btn-primary mr-2">View Details</button>
+                    <button type="button" onclick="handleId(@customer.Id)" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-success">Open
+                        Account</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Customer Open Account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-controller="Customer" asp-action="OpenAccount" method="post"  class="needs-validation">
+
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label for="customerId">Customer ID</label>
+                        <input type="text" asp-for="CustomerId" class="form-control" id="customerId" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="initialCredit">Initial Credit</label>
+                        <input type="number" required asp-for="InitialCredit" class="form-control" id="initialCredit">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function handleId(Id){
+        document.getElementById("customerId").value = Id;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form.needs-validation');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            
+            fetch('@Url.Action("OpenAccount", "Customer")', {
+                method: 'POST',
+                body: new FormData(form)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Account opened successfully!');
+                } else {
+                    alert('Failed to open account. Error: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while processing the request.');
+            });
+        });
+    });
+</script>

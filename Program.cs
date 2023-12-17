@@ -1,7 +1,15 @@
+using RJP.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Db Connection
+builder.Services.AddDbContext<DataDbContext>();
+builder.Services.AddScoped<ICustomerService,CustomerService>();
+builder.Services.AddScoped<IAccountService,AccountService>();
+builder.Services.AddScoped<ITransactionService,TransactionService>();
 
 var app = builder.Build();
 

@@ -1,0 +1,60 @@
+@model RJP.Responses.CustomerInformationResponse
+
+
+<h1>Customer Details</h1>
+
+<table class="table">
+    <thead>
+        <th>
+            Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            Balance
+        </th>
+        <th>
+            Transactions
+        </th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Model.Name
+            </td>
+            <td>
+                @Model.Surname
+            </td>
+            <td>
+                <ul>
+                    @foreach (var account in Model.Accounts)
+                    {
+
+                        <li>Account @account.Id : @account.Amount</li>
+                    }
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    @foreach (var account in Model.Accounts)
+                    {
+                        <li>
+                            Account: @account.Id
+                            <ul>
+                                @foreach (var transaction in account.Transactions)
+                                {
+                                    <li>
+                                        @transaction.Amount -
+                                        @transaction.Date 
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
