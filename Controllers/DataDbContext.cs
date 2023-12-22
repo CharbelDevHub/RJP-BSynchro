@@ -16,7 +16,7 @@ public class DataDbContext : DbContext{
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer(@"Server=LAPTOP-GBRP9262\SQLEXPRESS;Database=RJP;Trusted_Connection=True;Encrypt=False;");
+            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=RJP;Trusted_Connection=True;Encrypt=False;");
         }
     }
 
