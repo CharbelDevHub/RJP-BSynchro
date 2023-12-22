@@ -1,11 +1,13 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using RJP.Exceptions;
+using RJP.Models;
 using RJP.Requests;
 using RJP.Responses;
 using RJP.Services;
 
-
 namespace RJP.Controllers;
+
 
 public class CustomerController : Controller{
      
@@ -16,40 +18,46 @@ public class CustomerController : Controller{
         _customerService = customerService;
         _dbContext = dataDbContext;
     }
-    public IActionResult Index()
-    {   
-        var customers = _customerService.GetAll();
-        var viewModel = new CustomerListViewModel
-        {
-            Customers = customers
-        };
-        return View("Customer",viewModel);
+   
+
+    [HttpGet("Customer/{customerId}/account-info")]
+    public IActionResult GetInfo([FromRoute] int customerId )
+    {
+        try{
+            
+            var info = _customerService.GetAccountInfo(customerId);
+            //return View("CustomerDetails",info);
+            return Ok(info);
+
+        }catch(CustomerNotFoundException e){
+            return NotFound();
+        }
     }
 
-   [HttpPost]
-    public IActionResult OpenAccount(CustomerListViewModel request)
-    {
+    [HttpPost("Customer/OpenAccount")]
+    public IActionResult OpenAccount([FromBody] OpenAccountRequest request)
+    {   
         try
         {
             _customerService.OpenAccount(request.CustomerId, request.InitialCredit);
             return Ok(new { success = true });
         }
         catch (CustomerNotFoundException e){
-            return NotFound();
+            return NotFound("Customer not found");
         }
     }
 
 
-    [HttpGet("Customer/{customerId}/account-info")]
-    public IActionResult GetInfo([FromRoute] int customerId )
-    {
-        try{
-            var info = _customerService.GetAccountInfo(customerId);
-            return View("CustomerDetails",info);
-
-        }catch(CustomerNotFoundException e){
-            return NotFound();
-        }
+    [HttpGet("Customer")]
+    public IActionResult Index()
+    {   
+        var customers = _customerService.GetAll();
+        // var viewModel = new CustomerListViewModel
+        // {
+        //     Customers = customers
+        // };
+        // return View("Customer",viewModel);
+        return Ok(customers);
     }
 
 }

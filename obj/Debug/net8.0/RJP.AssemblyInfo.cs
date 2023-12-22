@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RJP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+68397e9298e53baa4e53480fb132fe74263736d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0d5a55856bb94a4d22656565deaa695f32626adc")]
 [assembly: System.Reflection.AssemblyProductAttribute("RJP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RJP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

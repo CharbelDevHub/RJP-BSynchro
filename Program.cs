@@ -11,6 +11,7 @@ builder.Services.AddScoped<ICustomerService,CustomerService>();
 builder.Services.AddScoped<IAccountService,AccountService>();
 builder.Services.AddScoped<ITransactionService,TransactionService>();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +26,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+
+app.UseCors(builder =>
+{
+    builder.WithOrigins("http://localhost:4200")
+           .AllowAnyHeader()
+           .AllowAnyMethod();
+});
 
 app.UseAuthorization();
 

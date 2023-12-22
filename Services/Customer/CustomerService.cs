@@ -35,7 +35,7 @@ public class CustomerService : ICustomerService
                         }).ToList()
                     }).ToList()
                 })
-            .FirstOrDefault()??throw new CustomerNotFoundException("Not Found");
+            .FirstOrDefault()??throw new CustomerNotFoundException("Customer Not Found");
     }
 
     public  List<Customer> GetAll()
@@ -45,9 +45,7 @@ public class CustomerService : ICustomerService
 
     public Customer GetCustomerById(int customerId)
     {
-
-        return _context.Customers.FirstOrDefault(c => c.Id == customerId)??throw new CustomerNotFoundException("Not Found");
-
+        return _context.Customers.FirstOrDefault(c => c.Id == customerId)??throw new CustomerNotFoundException("Customer Not Found");
     }
 
     public void OpenAccount(int customerId, decimal initialCredit)
